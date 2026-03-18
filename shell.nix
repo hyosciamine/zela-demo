@@ -1,9 +1,10 @@
 {
-	pkgs ? import <nixpkgs> {}
+	# 25.11 2026-01-19
+	pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/72ac591e737060deab2b86d6952babd1f896d7c5.tar.gz") {}
 }: let
 	# TODO: this obviously only works for aarch64 macos
 	wasi_sdk = builtins.fetchTarball {
-		url = "https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-27/wasi-sdk-27.0-arm64-macos.tar.gz";
+		url = "https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-30/wasi-sdk-30.0-arm64-macos.tar.gz";
 		sha256 = "sha256:06i3x95airmk5gs00831g1xmbpq5sard3g18rkzxzm9ikf34s4i7";
 	};
 in
