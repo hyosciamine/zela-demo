@@ -3,6 +3,21 @@
 version = 4
 
 [[package]]
+name = "accounts"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "env_logger 0.11.8",
+ "log",
+ "serde",
+ "solana-client",
+ "solana-sdk 2.3.1",
+ "solana-transaction-status-client-types",
+ "tokio",
+ "zela-std",
+]
+
+[[package]]
 name = "adler2"
 version = "2.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"

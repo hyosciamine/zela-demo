@@ -1,0 +1,23 @@
+[package]
+name = "accounts"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+zela-std.workspace = true
+serde.workspace = true
+log.workspace = true
+
+solana-sdk = { version = "2.2" }
+solana-transaction-status-client-types = { version = "2" }
+chrono = "0.4.42"
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+solana-client = { version = "2.2" }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }
+env_logger = { version = "0.11" }
