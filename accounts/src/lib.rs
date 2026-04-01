@@ -4,6 +4,18 @@ use serde::{Deserialize, Serialize};
 use solana_sdk::commitment_config::CommitmentConfig;
 use zela_std::{CustomProcedure, JsonValue, rpc_client::RpcClient, zela_custom_procedure};
 use solana_sdk::pubkey::Pubkey;
+use base64::{Engine as _, engine::general_purpose::STANDARD};
+
+#[derive(Serialize)]
+pub struct Output {
+    pub time_elapsed: i64,
+    #[serde(serialize_with = "as_base64")]
+    pub data: Vec<u8>,
+}
+
+fn as_base64<S: serde::Serializer>(bytes: &Vec<u8>, serializer: S) -> Result<S::Ok, S::Error> {
+    serializer.serialize_str(&STANDARD.encode(bytes))
+}
 
 // Define an empty struct to serve as a binding to rockrpc_custom_procedure trait.
 pub struct Accounts;
@@ -13,12 +25,12 @@ pub struct Input {
     account: String,
 }
 
-// Define output data of your method
-#[derive(Serialize)]
-pub struct Output {
-    pub time_elapsed: i64,
-    pub data: Vec<u8>,
-}
+// // Define output data of your method
+// #[derive(Serialize)]
+// pub struct Output {
+//     pub time_elapsed: i64,
+//     pub data: Vec<u8>,
+// }
 
 impl CustomProcedure for Accounts {
     // We do not need any params for thisA procedure

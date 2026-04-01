@@ -6,3 +6,4 @@ resolver = "3"
 zela-std = { git = "https://github.com/Zela-io/zela-std.git", rev = "e5465e0e60ae6b690664408dbdd885fcdb867eab" }
 serde = { version = "1.0.228", features = ["derive"] }
 log = { version = "0.4" }
+base64 = "0.22.1"
