@@ -6776,6 +6776,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "tx_landing"
+version = "0.1.0"
+dependencies = [
+ "base64 0.22.1",
+ "bincode",
+ "chrono",
+ "env_logger 0.11.8",
+ "log",
+ "serde",
+ "solana-client",
+ "solana-sdk 2.3.1",
+ "solana-transaction-status-client-types",
+ "tokio",
+ "zela-std",
+]
+
+[[package]]
 name = "typenum"
 version = "1.19.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
