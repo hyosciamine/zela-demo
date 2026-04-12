@@ -100,7 +100,7 @@ impl CustomProcedure for SendTransaction {
 
         // send transaction
         let signature = client.send_transaction(&tx).await?;
-        let elapsed = (Utc::now() - start).num_microseconds().unwrap_or_default();
+        let elapsed = (Utc::now() - start).num_milliseconds();
 
         Ok(Output {
             time_elapsed: elapsed,
