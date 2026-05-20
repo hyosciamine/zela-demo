@@ -1,11 +1,10 @@
-use std::str::FromStr;
+use base64::{Engine as _, engine::general_purpose::STANDARD};
 use chrono::Utc;
 use serde::{Deserialize, Serialize};
 use solana_sdk::commitment_config::CommitmentConfig;
 use solana_sdk::transaction::VersionedTransaction;
-use zela_std::{CustomProcedure, JsonValue, rpc_client::RpcClient, zela_custom_procedure};
 use zela_std::RpcError;
-use base64::{Engine as _, engine::general_purpose::STANDARD};
+use zela_std::{CustomProcedure, JsonValue, rpc_client::RpcClient, zela_custom_procedure};
 
 pub struct SendTransaction;
 
@@ -56,11 +55,11 @@ impl CustomProcedure for SendTransaction {
             message: format!("tx deserialize error: {}", e),
             data: None,
         })?;
-
+        let mut attempts = 0u32;
         // simulate in loop if requested
         let simulation = if params.simulate {
             let mut last_sim: Option<SimulateResult> = None;
-            let mut attempts = 0u32;
+
             let mut passed = false;
 
             for _ in 0..max_retries {
@@ -106,7 +105,7 @@ impl CustomProcedure for SendTransaction {
             time_elapsed: elapsed,
             signature: Some(signature.to_string()),
             simulation,
-            simulation_attempts: if params.simulate { max_retries } else { 0 },
+            simulation_attempts: attempts,
         })
     }
 }
