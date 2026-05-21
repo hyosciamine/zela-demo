@@ -1,18 +1,17 @@
-use std::str::FromStr;
+use base64::{Engine as _, engine::general_purpose::STANDARD};
 use chrono::Utc;
 use serde::{Deserialize, Serialize};
 use solana_sdk::commitment_config::CommitmentConfig;
 use solana_sdk::transaction::VersionedTransaction;
-use zela_std::{CustomProcedure, JsonValue, rpc_client::RpcClient, zela_custom_procedure};
 use zela_std::RpcError;
-use base64::{Engine as _, engine::general_purpose::STANDARD};
+use zela_std::{CustomProcedure, JsonValue, rpc_client::RpcClient, zela_custom_procedure};
 
 pub struct SendTransaction;
 
 #[derive(Deserialize, Debug)]
 pub struct Input {
-    pub tx: String,       // base64 encoded transaction
-    pub simulate: bool,   // if true, simulate before sending
+    pub tx: String,     // base64 encoded transaction
+    pub simulate: bool, // if true, simulate before sending
 }
 
 #[derive(Serialize)]
