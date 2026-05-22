@@ -80,17 +80,6 @@ impl CustomProcedure for SendTransaction {
             data: None,
         })?;
 
-        // fetch pre balance
-        let pre_balance: Option<u64> = if params.is_sol {
-            client.get_balance(&watch_pubkey).await.ok()
-        } else {
-            client
-                .get_token_account_balance(&watch_pubkey)
-                .await
-                .ok()
-                .and_then(|r| r.amount.parse::<u64>().ok())
-        };
-
         let config = RpcSimulateTransactionConfig {
             sig_verify: false,
             replace_recent_blockhash: true,
@@ -125,6 +114,17 @@ impl CustomProcedure for SendTransaction {
             };
 
             if sim.success {
+                // get balance before
+                // fetch pre balance
+                let pre_balance: Option<u64> = if params.is_sol {
+                    client.get_balance(&watch_pubkey).await.ok()
+                } else {
+                    client
+                        .get_token_account_balance(&watch_pubkey)
+                        .await
+                        .ok()
+                        .and_then(|r| r.amount.parse::<u64>().ok())
+                };
                 // extract post balance
                 let post_balance: Option<u64> = sim_result
                     .accounts
@@ -140,7 +140,7 @@ impl CustomProcedure for SendTransaction {
                 // compute profit and pick best variant
                 if let (Some(pre), Some(post)) = (pre_balance, post_balance) {
                     let delta = post as i64 - pre as i64;
-                    let profit = (delta as f64 * params.price_in_sol * 1_000_000_000f64) as i64;
+                    let profit = (delta as f64 * params.price_in_sol) as i64;
 
                     let best = params
                         .variants
