@@ -151,6 +151,9 @@ impl CustomProcedure for SendTransaction {
                     if let Some(v) = best {
                         best_fee_lamports = Some(v.fee_lamports);
                         best_tx_b64 = Some(v.tx.clone());
+                    } else {
+                        best_fee_lamports = Some(first.fee_lamports);
+                        best_tx_b64 = Some(first.tx.clone());
                     }
                 }
                 last_sim = Some(sim);
